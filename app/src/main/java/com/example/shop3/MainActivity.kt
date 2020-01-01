@@ -1,38 +1,53 @@
 package com.example.shop3
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
 
 class MainActivity : AppCompatActivity() {
 
 
     private  lateinit var  auth: FirebaseAuth
-
-
     var TAG = "WillTest"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(toolbar)
+        auth = FirebaseAuth.getInstance()
 
+        val userEmail: String = "Willtest4@gmail.com"
+        val userPassword: String = "123456"
+
+        signIn(userEmail, userPassword)
+//        val userId = auth.currentUser!!.uid
+//        articlePost("hi",userId,"aaa","aaa",userEmail,convertLongToDateString(System.currentTimeMillis()))
+
+
+//        setSupportActionBar(toolbar)
+
+        //
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+        //
+
+
+
 
         //創建資料到database
 
-        val db = FirebaseFirestore.getInstance()
 
-        auth = FirebaseAuth.getInstance()
+        val db = FirebaseFirestore.getInstance()
 
 
         val user = hashMapOf(
@@ -40,11 +55,11 @@ class MainActivity : AppCompatActivity() {
             "first" to "Ada",
             "last" to "Lovelace",
             "born" to 1815,
-            "email" to "darthhun455@gmail.com"
+            "email" to "darthhun23675@gmail.com"
         )
 
         db.collection("users")
-            .document("darthhun455@gmail.com")
+            .document("darthhun23756@gmail.com")
             .set(user)
             .addOnSuccessListener { documentReference ->
                 Log.d("MainActivity", "DocumentSnapshot added with ID: ${documentReference}")
@@ -54,9 +69,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         //創建資料到database
-
-
-
 
 
     }
@@ -99,6 +111,59 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    //sign in
+
+    private fun signIn(email: String, password: String) {
+        Log.d(TAG, "signIn:$email")
+//        if (!validateForm()) {
+//            return
+//        }
+//
+//        showProgressBar()
+        // [START sign_in_with_email]
+        auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "signInWithEmail:success")
+                    val user = auth.currentUser
+//                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "signInWithEmail:failure", task.exception)
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+//                    updateUI(null)
+                }
+                // [START_EXCLUDE]
+//                if (!task.isSuccessful) {
+//                    status.setText(R.string.auth_failed)
+//                }
+//                hideProgressBar()
+                // [END_EXCLUDE]
+            }
+        // [END sign_in_with_email]
+    }
+
+
+
+    //sign in
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -117,7 +182,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
+    @SuppressLint("SimpleDateFormat")
+    fun convertLongToDateString(systemTime: Long): String {
+        return SimpleDateFormat("EEEE MMM-dd-yyyy' Time: 'HH:mm")
+            .format(systemTime).toString()
+    }
 
 
 
