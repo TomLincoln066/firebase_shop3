@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
 
 
-
+    private  lateinit var  auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,19 +29,25 @@ class MainActivity : AppCompatActivity() {
 
         val db = FirebaseFirestore.getInstance()
 
+        auth = FirebaseAuth.getInstance()
+
+
+
 
         val user = hashMapOf(
 
             "first" to "Ada",
             "last" to "Lovelace",
-            "born" to 1815
+            "born" to 1815,
+            "email" to "darthhun@gmail.com"
 
         )
 
         db.collection("users")
-            .add(user)
+            .document("darthhun@gmail.com")
+            .set(user)
             .addOnSuccessListener { documentReference ->
-                Log.d("MainActivity", "DocumentSnapshot added with ID: ${documentReference.id}")
+                Log.d("MainActivity", "DocumentSnapshot added with ID: ${documentReference}")
             }
             .addOnFailureListener { e ->
                 Log.w("MainActivity", "Error adding document", e)
