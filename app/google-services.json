@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "325091917919",
+    "firebase_url": "https://hamburger-f5863.firebaseio.com",
+    "project_id": "hamburger-f5863",
+    "storage_bucket": "hamburger-f5863.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:325091917919:android:de97154f02526aee345bea",
+        "android_client_info": {
+          "package_name": "com.example.shop3"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "325091917919-7c5rho1p95c8kef8i4iunb6ojro3n5lm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzGDNiHICqKpHOgpH0ez0aQYd39EWoXKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "325091917919-7c5rho1p95c8kef8i4iunb6ojro3n5lm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "325091917919-rb95jsunvldmq6vo1qmrb6aj3ndg960j.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.hamburger.Hamburger"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
