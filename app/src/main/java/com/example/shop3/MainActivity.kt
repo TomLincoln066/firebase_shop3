@@ -27,12 +27,17 @@ class MainActivity : AppCompatActivity() {
         val userEmail: String = "Willtest4@gmail.com"
         val userPassword: String = "123456"
 
+        //        createAccount("willtest4@gmail.com", "123456","willtest4")
         signIn(userEmail, userPassword)
+
 //        val userId = auth.currentUser!!.uid
 //        articlePost("hi",userId,"aaa","aaa",userEmail,convertLongToDateString(System.currentTimeMillis()))
 
-
+//        Log.d(TAG,"${convertLongToDateString(System.currentTimeMillis())}")
+       // queryEmail("guo@test.com")
 //        setSupportActionBar(toolbar)
+
+
 
         //
         fab.setOnClickListener { view ->
@@ -55,11 +60,11 @@ class MainActivity : AppCompatActivity() {
             "first" to "Ada",
             "last" to "Lovelace",
             "born" to 1815,
-            "email" to "darthhun23675@gmail.com"
+            "email" to "darthhun785@gmail.com"
         )
 
         db.collection("users")
-            .document("darthhun23756@gmail.com")
+            .document("darthhun856@gmail.com")
             .set(user)
             .addOnSuccessListener { documentReference ->
                 Log.d("MainActivity", "DocumentSnapshot added with ID: ${documentReference}")
@@ -69,9 +74,76 @@ class MainActivity : AppCompatActivity() {
             }
 
         //創建資料到database
-
-
     }
+
+    private fun queryEmail(email: String) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("Users")
+            .document(email)
+            .get()
+            .addOnSuccessListener { result ->
+                Log.d(TAG, "${result.id} => ${result.data}")
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Error getting documents.", exception)
+            }
+    }
+
+
+    private fun createAccount(email: String, password: String, name: String) {
+        Log.d(TAG, "createAccount:$email")
+//        if (!validateForm()) {
+//            return
+//        }
+        val db = FirebaseFirestore.getInstance()
+//
+//        showProgressBar()
+        // [START create_user_with_email]
+        auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.d(TAG, "createUserWithEmail:success")
+//                    val user = auth.currentUser
+                    val userId = auth.currentUser!!.uid
+//        createAccount("willtest@gmail.com", "123456")
+//        signIn("willtest@gmail.com","123456")
+                    val user = hashMapOf(
+                        "email" to email,
+                        "id" to userId,
+                        "name" to name,
+                        "password" to password
+                    )
+// Add a new document with a generated ID
+                    db.collection("Users")
+                        .document(email)
+                        .set(user)
+                        .addOnSuccessListener { documentReference ->
+                            Log.d(TAG, "DocumentSnapshot added with ID: ${userId}")
+                        }
+                        .addOnFailureListener { e ->
+                            Log.w(TAG, "Error adding document", e)
+                        }
+//                    updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.w(TAG, "createUserWithEmail:failure", task.exception)
+                    Toast.makeText(
+                        baseContext, "Authentication failed.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+//                    updateUI(null)
+                }
+                // [START_EXCLUDE]
+//                hideProgressBar()
+                // [END_EXCLUDE]
+            }
+        // [END create_user_with_email]
+    }
+
+
+
+
 
     //發文
 
@@ -154,16 +226,19 @@ class MainActivity : AppCompatActivity() {
 
 
 
+    //sign out
+
+
+    private fun signOut() {
+        auth.signOut()
+    }
+
+    //sign out
 
 
 
 
-
-
-
-
-
-
+    //
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -181,6 +256,8 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
+    //
 
     @SuppressLint("SimpleDateFormat")
     fun convertLongToDateString(systemTime: Long): String {
