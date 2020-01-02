@@ -30,8 +30,8 @@ class MainActivity : AppCompatActivity() {
         //        createAccount("willtest4@gmail.com", "123456","willtest4")
         signIn(userEmail, userPassword)
 
-//        val userId = auth.currentUser!!.uid
-//        articlePost("hi",userId,"aaa","aaa",userEmail,convertLongToDateString(System.currentTimeMillis()))
+        val userId = "1"
+        articlePost("hi",userId, listOf("aaa"),"aaa","aaa","yyyy/mm/dd hh:mm")
 
 //        Log.d(TAG,"${convertLongToDateString(System.currentTimeMillis())}")
        // queryEmail("guo@test.com")
@@ -57,14 +57,18 @@ class MainActivity : AppCompatActivity() {
 
         val user = hashMapOf(
 
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815,
-            "email" to "darthhun785@gmail.com"
+            "email" to "darthhun7985@gmail.com",
+            "id" to "9o1n5k5b10fG3yCEoy7eL56nnbD3",
+            "name" to "name"
+
+//            "first" to "Ada",
+//            "last" to "Lovelace",
+//            "born" to 1815,
+//            "email" to "darthhun7985@gmail.com"
         )
 
         db.collection("users")
-            .document("darthhun856@gmail.com")
+            .document("darthhun9856@gmail.com")
             .set(user)
             .addOnSuccessListener { documentReference ->
                 Log.d("MainActivity", "DocumentSnapshot added with ID: ${documentReference}")
@@ -150,7 +154,7 @@ class MainActivity : AppCompatActivity() {
     private fun articlePost(
         content: String,
         id: String,
-        tag: String,
+        tag: List<String>,
         title: String,
         author: String,
         time: String
@@ -158,12 +162,20 @@ class MainActivity : AppCompatActivity() {
         val db = FirebaseFirestore.getInstance()
         val docID = db.collection("Articles").document().id
         val user = hashMapOf(
-            "article_content" to content,
-            "article_id" to docID,
-            "article_tag" to tag,
-            "article_title" to title,
             "author" to author,
-            "create_time" to time
+            "content" to content,
+            "createTime" to time,
+            "id" to docID,
+            "tag" to tag,
+            "title" to title
+
+
+//            "article_content" to content,
+//            "article_id" to docID,
+//            "article_tag" to tag,
+//            "article_title" to title,
+//            "author" to author,
+//            "create_time" to time
         )
       // Add a new document with a generated ID
 
